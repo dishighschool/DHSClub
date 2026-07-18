@@ -314,100 +314,6 @@ p {
   font-size: 20px;
 }
 
-.video-note {
-  width: min(100%, 960px);
-  margin: 32px auto 0;
-  color: var(--md-sys-color-on-surface-variant);
-  font-size: 18px;
-  font-weight: 500;
-  text-align: center;
-}
-
-.video-note a {
-  color: var(--md-sys-color-primary);
-  font-weight: 700;
-  text-underline-offset: 4px;
-}
-
-.video-card {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  width: min(100%, 960px);
-  margin: 14px auto 0;
-  overflow: hidden;
-  background: #000000;
-  border: 1px solid var(--md-sys-color-outline-variant);
-  border-radius: var(--md-sys-shape-large);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
-}
-
-.video-card iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.video-fallback {
-  position: relative;
-  display: grid;
-  width: 100%;
-  height: 100%;
-  place-items: center;
-  overflow: hidden;
-  color: #ffffff;
-  background: #000000;
-  text-decoration: none;
-}
-
-.video-fallback > img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.24;
-  object-fit: cover;
-}
-
-.video-fallback::after {
-  position: absolute;
-  inset: 0;
-  content: "";
-  background: rgba(20, 18, 24, 0.68);
-}
-
-.video-fallback-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 8px;
-  padding: 24px;
-  text-align: center;
-}
-
-.video-play {
-  display: grid;
-  width: 56px;
-  height: 56px;
-  margin-bottom: 4px;
-  place-items: center;
-  color: var(--md-sys-color-on-primary);
-  background: var(--md-sys-color-primary);
-  border-radius: 50%;
-  font-size: 22px;
-}
-
-.video-fallback-content strong {
-  font-size: 16px;
-}
-
-.video-fallback-content small {
-  color: var(--md-sys-color-on-surface-variant);
-  font-size: 12px;
-}
-
 .join-section {
   padding: 52px 24px;
   color: var(--md-sys-color-on-primary-container);
@@ -566,10 +472,6 @@ p {
     border-bottom: 0;
   }
 
-  .video-card {
-    border-radius: var(--md-sys-shape-medium);
-  }
-
   .join-section {
     padding: 48px 16px;
   }
@@ -671,10 +573,6 @@ p {
 
   .md3-detail p {
     font-size: 18px;
-  }
-
-  .video-card {
-    margin-top: 24px;
   }
 
   .join-section {
