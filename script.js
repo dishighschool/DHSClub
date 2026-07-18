@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     videoCard.innerHTML = `
       <a
         class="video-fallback"
-        href="https://www.youtube.com/watch?v=fMaGdsfXHKM"
+        href="https://www.youtube.com/watch?v=fMaGdsfXHKM&amp;t=3024s"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="在 YouTube 觀看共創社群導覽影片"
