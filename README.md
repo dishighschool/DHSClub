@@ -43,6 +43,6 @@ python3 -m http.server 4173
 
 ## 相關連結
 
-- [加入 Discord 共創社群](https://discord.gg/jx5rBTGXQN)
+- Discord 加入連結將由網站於台灣時間 2026 年 7 月 19 日 18:00 自動開放。
 
 網站可直接部署到 GitHub Pages 或其他靜態網站託管服務，發布專案根目錄即可。

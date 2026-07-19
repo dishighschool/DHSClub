@@ -381,10 +381,25 @@ p {
   background: var(--md-sys-color-primary);
 }
 
-.md3-filled-button:hover,
-.md3-filled-button:focus-visible {
+.md3-filled-button:not(.is-locked):hover,
+.md3-filled-button:not(.is-locked):focus-visible {
   background: #dac7ff;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.28);
+}
+
+.md3-filled-button.is-locked {
+  color: rgba(234, 221, 255, 0.62);
+  background: rgba(230, 224, 233, 0.12);
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.join-availability {
+  margin: 14px 0 0;
+  color: rgba(234, 221, 255, 0.82);
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .discord-icon {

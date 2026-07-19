@@ -141,7 +141,7 @@
             </div>
             <div>
               <dt>什麼時候</dt>
-              <dd>任何時候</dd>
+              <dd>7/19 18:00 起</dd>
             </div>
             <div>
               <dt>需要申請嗎</dt>
@@ -153,16 +153,21 @@
             </div>
           </dl>
           <a
-            class="md3-filled-button"
-            href="https://discord.gg/jx5rBTGXQN"
-            target="_blank"
-            rel="noopener noreferrer"
+            class="md3-filled-button is-locked"
+            id="discord-join"
+            role="link"
+            aria-disabled="true"
+            aria-describedby="discord-availability"
+            tabindex="-1"
           >
             <svg class="discord-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M19.5 5.34A16.3 16.3 0 0 0 15.44 4l-.5 1.04a15.4 15.4 0 0 0-5.88 0L8.55 4A16.5 16.5 0 0 0 4.5 5.35C1.94 9.15 1.25 12.85 1.6 16.5a16.6 16.6 0 0 0 4.98 2.5l1.2-1.65a10.7 10.7 0 0 1-1.9-.9l.47-.36c3.67 1.69 7.65 1.69 11.28 0l.48.37c-.61.35-1.25.65-1.9.89L17.4 19a16.5 16.5 0 0 0 4.98-2.5c.42-4.23-.72-7.9-2.88-11.16ZM8.83 14.28c-1.1 0-2-1.02-2-2.27s.88-2.28 2-2.28c1.13 0 2.03 1.03 2.01 2.28 0 1.25-.88 2.27-2 2.27Zm6.34 0c-1.1 0-2-1.02-2-2.27s.88-2.28 2-2.28c1.13 0 2.03 1.03 2.01 2.28 0 1.25-.88 2.27-2 2.27Z"/>
             </svg>
-            加入 Discord 共創團隊
+            <span id="discord-join-label">7/19 18:00 開放加入</span>
           </a>
+          <p class="join-availability" id="discord-availability" aria-live="polite">
+            Discord 連結將於台灣時間 7 月 19 日 18:00 開放。
+          </p>
         </div>
       </section>
     </main>
