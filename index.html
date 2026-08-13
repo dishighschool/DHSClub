@@ -21,6 +21,7 @@
       sizes="64x64"
       href="./static/favicon.png"
     >
+    <link rel="preload" href="./static/logo.png" as="image" type="image/png">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="DisHighSchool 迪斯中學">
@@ -61,6 +62,22 @@
     <script src="./script.js"></script>
   </head>
   <body>
+    <div class="site-loader" id="site-loader" role="status" aria-live="polite" aria-label="網站載入中">
+      <div class="site-loader-content">
+        <div class="site-loader-mark" aria-hidden="true">
+          <span class="site-loader-ring"></span>
+          <img src="./static/logo.png" alt="" width="316" height="318">
+        </div>
+        <div class="site-loader-brand">
+          <strong>DisHighSchool</strong>
+          <span>迪斯中學共創社群</span>
+        </div>
+        <span class="site-loader-progress" aria-hidden="true">
+          <span></span>
+        </span>
+      </div>
+    </div>
+
     <a class="skip-link" href="#main-content">跳到主要內容</a>
 
     <header class="top-app-bar">

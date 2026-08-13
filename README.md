@@ -15,7 +15,7 @@ DisHighSchool 共創社群的官方簡介網站。這是一個由學生發起、
 .
 ├── index.html          # 頁面結構、文案與 Meta 資料
 ├── styles.css         # Material 3 紫色介面與響應式樣式
-├── script.js          # 進場動畫
+├── script.js          # 品牌載入動畫、Discord 狀態與進場動畫
 └── static/
     ├── favicon.png    # 分頁圖示
     ├── logo.png       # 社群 Logo
