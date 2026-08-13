@@ -19,6 +19,7 @@ DisHighSchool 共創社群的官方簡介網站。這是一個由學生發起、
 └── static/
     ├── favicon.png    # 分頁圖示
     ├── logo.png       # 社群 Logo
+    ├── 橫向.png        # 頁首橫向 Logo
     └── 配色.png        # Hero 主視覺背景
 ```
 
