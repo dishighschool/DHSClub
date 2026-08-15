@@ -18,6 +18,7 @@ DisHighSchool 共創社群的官方簡介網站。這是一個由學生發起、
 ├── script.js          # 品牌載入動畫、Discord 狀態與進場動畫
 ├── bot/               # 獨立運行的 Discord AI Bot
 │   ├── src/           # Bot、AI client、指令與摘要邏輯
+│   ├── prompts/       # 可獨立維護的完整品牌 System Prompt
 │   ├── test/          # Node.js 單元測試
 │   └── .env.example   # 不含憑證的環境變數範本
 └── static/
@@ -65,6 +66,8 @@ python3 -m http.server 4173
 - AI 內文停用 mentions；輸出的 `@everyone`、`@here`、身分組與使用者名稱只會顯示文字，但保留 Discord 原本的回覆對象通知
 
 人物分析只讀取目前頻道中 Bot 可見、最長 30 天的訊息，並以名稱與頭像呈現 Discord 分析卡片。內容定位為有例證的「溝通風格觀察」，不將有限聊天紀錄視為可靠的心理診斷，也不從頭像推斷人格或敏感屬性。
+
+完整人格與品牌規則位於 `bot/prompts/system.md`。Bot 可以自然回應課業與品牌以外的一般話題，不會把每次對話強制拉回考試、共創社群或官方連結。
 
 ### 設定與啟動
 
