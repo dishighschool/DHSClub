@@ -6,7 +6,7 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 import { collectChannelMessages, summarizeMessages } from './summaries.js';
-import { parseDuration, splitDiscordMessage } from './utils.js';
+import { REPLY_ONLY_MENTIONS, parseDuration, splitDiscordMessage } from './utils.js';
 
 const commandBuilders = [
   new SlashCommandBuilder()
@@ -55,13 +55,13 @@ async function replyEphemeralChunks(interaction, content) {
   const chunks = splitDiscordMessage(content);
   await interaction.editReply({
     content: chunks[0],
-    allowedMentions: { parse: [] },
+    allowedMentions: REPLY_ONLY_MENTIONS,
   });
   for (const chunk of chunks.slice(1)) {
     await interaction.followUp({
       content: chunk,
       flags: MessageFlags.Ephemeral,
-      allowedMentions: { parse: [] },
+      allowedMentions: REPLY_ONLY_MENTIONS,
     });
   }
 }
@@ -83,7 +83,7 @@ export async function handleAutocomplete(interaction, ai) {
 
 export async function handleModelCommand(interaction, ai) {
   if (!interaction.inGuild() || !interaction.memberPermissions?.has(PermissionFlagsBits.ManageGuild)) {
-    await interaction.reply({ content: '需要「管理伺服器」權限才能使用這個指令。', flags: MessageFlags.Ephemeral });
+    await interaction.reply({ content: '需要「管理伺服器」權限才能使用這個指令。', flags: MessageFlags.Ephemeral, allowedMentions: REPLY_ONLY_MENTIONS });
     return;
   }
 
@@ -92,22 +92,22 @@ export async function handleModelCommand(interaction, ai) {
 
   if (requestedModel) {
     const selected = await ai.selectModel(requestedModel);
-    await interaction.editReply(`已將 AI 模型切換為 \`${selected}\`。重新啟動後會回到環境變數設定的預設模型。`);
+    await interaction.editReply({ content: `已將 AI 模型切換為 \`${selected}\`。重新啟動後會回到環境變數設定的預設模型。`, allowedMentions: REPLY_ONLY_MENTIONS });
     return;
   }
 
   const [selected, models] = await Promise.all([ai.getSelectedModel(), ai.listModels()]);
-  await interaction.editReply(`目前模型：\`${selected}\`\n可用文字對話模型：${models.length} 個`);
+  await interaction.editReply({ content: `目前模型：\`${selected}\`\n可用文字對話模型：${models.length} 個`, allowedMentions: REPLY_ONLY_MENTIONS });
 }
 
 export async function handleSummaryCommand(interaction, ai, { defaultMaxMessages = 300 } = {}) {
   if (!interaction.inGuild() || !interaction.memberPermissions?.has(PermissionFlagsBits.ManageMessages)) {
-    await interaction.reply({ content: '需要「管理訊息」權限才能使用這個指令。', flags: MessageFlags.Ephemeral });
+    await interaction.reply({ content: '需要「管理訊息」權限才能使用這個指令。', flags: MessageFlags.Ephemeral, allowedMentions: REPLY_ONLY_MENTIONS });
     return;
   }
 
   if (!interaction.channel?.isTextBased() || !interaction.channel.messages) {
-    await interaction.reply({ content: '這個指令只能在可讀取訊息記錄的文字頻道使用。', flags: MessageFlags.Ephemeral });
+    await interaction.reply({ content: '這個指令只能在可讀取訊息記錄的文字頻道使用。', flags: MessageFlags.Ephemeral, allowedMentions: REPLY_ONLY_MENTIONS });
     return;
   }
 
@@ -128,7 +128,7 @@ export async function handleSummaryCommand(interaction, ai, { defaultMaxMessages
   });
 
   if (!result.messages.length) {
-    await interaction.editReply('指定範圍內沒有可整理的訊息。');
+    await interaction.editReply({ content: '指定範圍內沒有可整理的訊息。', allowedMentions: REPLY_ONLY_MENTIONS });
     return;
   }
 

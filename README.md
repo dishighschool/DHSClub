@@ -57,9 +57,14 @@ python3 -m http.server 4173
 `bot/` 提供獨立運行的 Discord Bot，使用 `https://ai.tfdst.xyz/v1` 的 OpenAI 相容 API，支援：
 
 - 標註 Bot 後聊天，或回覆 Bot 的訊息延續對話
+- 回覆鏈上下文會包含成員名稱、Discord ID、頭像 URL、Embed 內文、附件、貼圖與反應
 - 從 API 動態讀取文字對話模型，管理員可用 `/ai-model` 查看或切換
 - 具「管理訊息」權限的成員可用 `/ai-summary` 整理指定期間，並可限定單一使用者
+- 具「管理訊息」權限的成員也可直接對話，例如「分析 @使用者 最近 7 天的說話方式」或「總結最近 2h 的頻道對話」
 - 摘要結果預設為 Discord 私密回覆，避免在公開頻道重貼對話內容
+- AI 內文停用 mentions；輸出的 `@everyone`、`@here`、身分組與使用者名稱只會顯示文字，但保留 Discord 原本的回覆對象通知
+
+人物分析只讀取目前頻道中 Bot 可見、最長 30 天的訊息，並以名稱與頭像呈現 Discord 分析卡片。內容定位為有例證的「溝通風格觀察」，不將有限聊天紀錄視為可靠的心理診斷，也不從頭像推斷人格或敏感屬性。
 
 ### 設定與啟動
 
@@ -78,5 +83,6 @@ npm start
 - `AI_API_KEY`：AI 服務金鑰
 - `DISCORD_GUILD_ID`：選填；開發時建議填入測試伺服器 ID，slash commands 會立即更新
 - `AI_MODEL`：選填；留空時會從 `/models` 自動選擇，設定後則作為重新啟動時的預設模型
+- `HISTORY_MAX_MESSAGES`：自然語言歷史整理一次最多讀取的訊息數，預設 200、上限 300
 
 `.env`、Token 與 API key 已由 `.gitignore` 排除，不應提交到 Git。Bot 在專案根目錄部署靜態網站時不會自動執行，需另以常駐 Node.js 服務部署。

@@ -1,13 +1,23 @@
-import { stripBotMention } from './utils.js';
+import { extractDiscordMessageContent } from './utils.js';
 
 function messageText(message, botId) {
-  const content = stripBotMention(message.content, botId);
-  const attachments = [...message.attachments.values()].map((attachment) => attachment.url);
-  return [content, ...attachments.map((url) => `[附件] ${url}`)].filter(Boolean).join('\n');
+  return extractDiscordMessageContent(message, botId);
 }
 
 function authorName(message) {
   return message.member?.displayName || message.author.globalName || message.author.username;
+}
+
+function authorMetadata(message) {
+  const avatarUrl = typeof message.author.displayAvatarURL === 'function'
+    ? message.author.displayAvatarURL({ extension: 'png', size: 128 })
+    : '';
+  return [
+    authorName(message),
+    `@${message.author.username}`,
+    `Discord ID: ${message.author.id}`,
+    avatarUrl ? `頭像 URL: ${avatarUrl}` : '',
+  ].filter(Boolean).join('，');
 }
 
 export async function isReplyToBot(message, botId) {
@@ -39,7 +49,7 @@ export async function buildConversation(message, botId, maxMessages = 20) {
     if (!content) continue;
 
     const role = item.author.id === botId ? 'assistant' : 'user';
-    const text = role === 'user' ? `${authorName(item)}：${content}` : content;
+    const text = role === 'user' ? `作者：${authorMetadata(item)}\n${content}` : content;
     const previous = messages.at(-1);
 
     if (previous?.role === role) {

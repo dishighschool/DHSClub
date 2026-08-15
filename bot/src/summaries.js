@@ -1,3 +1,5 @@
+import { extractDiscordMessageContent } from './utils.js';
+
 const MAX_SCANNED_MESSAGES = 5000;
 const SUMMARY_CHUNK_CHARACTERS = 18000;
 const SUMMARY_CONCURRENCY = 3;
@@ -25,10 +27,8 @@ async function mapWithConcurrency(items, concurrency, worker) {
 function serializeMessage(message) {
   const timestamp = new Date(message.createdTimestamp).toISOString();
   const author = message.member?.displayName || message.author.globalName || message.author.username;
-  const content = message.content.trim();
-  const attachments = [...message.attachments.values()].map((attachment) => `[附件] ${attachment.url}`);
-  const body = [content, ...attachments].filter(Boolean).join(' ').slice(0, 2500);
-  return `[${timestamp}] ${author} (${message.author.id}): ${body}`;
+  const body = extractDiscordMessageContent(message).slice(0, 2500);
+  return `[${timestamp}] ${author} (@${message.author.username}, ID: ${message.author.id}): ${body}`;
 }
 
 export async function collectChannelMessages(channel, { since, until = Date.now(), userId, limit = 300 }) {
@@ -51,7 +51,7 @@ export async function collectChannelMessages(channel, { since, until = Date.now(
       }
       if (message.createdTimestamp > until) continue;
       if (userId && message.author.id !== userId) continue;
-      if (!message.content.trim() && !message.attachments.size) continue;
+      if (!extractDiscordMessageContent(message)) continue;
 
       collected.push(message);
       if (collected.length >= limit) {

@@ -12,6 +12,15 @@ const DURATION_UNITS = {
 const NON_CHAT_MODEL_PATTERN =
   /(embedding|embed|rerank|tts|speech|whisper|transcri|image|dall-e|moderation|ocr)/i;
 
+const EMPTY_MENTION_LIST = Object.freeze([]);
+
+export const REPLY_ONLY_MENTIONS = Object.freeze({
+  parse: EMPTY_MENTION_LIST,
+  users: EMPTY_MENTION_LIST,
+  roles: EMPTY_MENTION_LIST,
+  repliedUser: true,
+});
+
 export function parseDuration(value, { minMs = 60 * 1000, maxMs = 30 * 24 * 60 * 60 * 1000 } = {}) {
   const match = String(value ?? '')
     .trim()
@@ -67,6 +76,58 @@ export function stripBotMention(content, botId) {
   if (!botId) return String(content ?? '').trim();
   return String(content ?? '')
     .replace(new RegExp(`<@!?${botId}>`, 'g'), '')
+    .trim();
+}
+
+export function humanizeDiscordMentions(content, message) {
+  return String(content ?? '')
+    .replace(/<@!?(\d+)>/g, (mention, userId) => {
+      const user = message.mentions?.users?.get(userId);
+      const member = message.guild?.members?.cache?.get(userId);
+      const name = member?.displayName || user?.globalName || user?.username;
+      return name ? `@${name} (ID: ${userId})` : mention;
+    })
+    .replace(/<#(\d+)>/g, (mention, channelId) => {
+      const channel = message.mentions?.channels?.get(channelId);
+      return channel?.name ? `#${channel.name}` : mention;
+    })
+    .replace(/<@&(\d+)>/g, (mention, roleId) => {
+      const role = message.mentions?.roles?.get(roleId);
+      return role?.name ? `@${role.name}` : mention;
+    });
+}
+
+function serializeEmbed(embed) {
+  const parts = [
+    embed.author?.name,
+    embed.title,
+    embed.description,
+    ...((embed.fields || []).map((field) => `${field.name}：${field.value}`)),
+    embed.footer?.text,
+    embed.url,
+    embed.image?.url ? `[圖片] ${embed.image.url}` : '',
+    embed.thumbnail?.url ? `[縮圖] ${embed.thumbnail.url}` : '',
+  ].filter(Boolean);
+
+  return parts.length ? `[Embed] ${parts.join('\n')}` : '';
+}
+
+export function extractDiscordMessageContent(message, botId) {
+  const content = humanizeDiscordMentions(stripBotMention(message.content, botId), message);
+  const attachments = [...(message.attachments?.values?.() || [])].map((attachment) =>
+    `[附件${attachment.name ? `：${attachment.name}` : ''}] ${attachment.url}`,
+  );
+  const embeds = (message.embeds || []).map(serializeEmbed).filter(Boolean);
+  const stickers = [...(message.stickers?.values?.() || [])].map((sticker) =>
+    `[貼圖] ${sticker.name}${sticker.url ? ` ${sticker.url}` : ''}`,
+  );
+  const reactions = [...(message.reactions?.cache?.values?.() || [])].map((reaction) =>
+    `[反應] ${reaction.emoji?.name || reaction.emoji?.id || '未知'} x ${reaction.count}`,
+  );
+
+  return [content, ...attachments, ...embeds, ...stickers, ...reactions]
+    .filter(Boolean)
+    .join('\n')
     .trim();
 }
 
